@@ -5,26 +5,89 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Tareas Pendientes</title>
+	<title>Drag and Drop</title>
 	<link rel="stylesheet" href="css/estilos.css">
 
 	<!-- FONT FAMILY -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Cormorant+SC&family=Edu+TAS+Beginner:wght@500&family=Edu+VIC+WA+NT+Beginner:wght@500&family=Ibarra+Real+Nova:ital,wght@1,500&family=Mouse+Memoirs&display=swap"
+		rel="stylesheet">
 
 
 </head>
 
 <body>
-    <header class="cabecera">
-	<h2>Lista de tareas pendientes</h2>
-	<label for="inputNuevaTarea"> Agregar nueva tarea: </label>
-	<input type="text" placeholder="Ingrese Tarea" id="inputNuevaTarea" maxlength="140">
-	<button id="btnAgregarTarea">+</button>
-	<ul id="contenedorTareas"></ul>
-</header>
+
+	<header class="cabecera">
+		<h2>Drag and Drop List</h2>
+	</header>
+
+	<div class="contenedor roundBorder">
+
+		<div class="nueva-tarea">
+			<div class="titulo-tarea">
+				<h3>Por Hacer</h3>
+			</div>
+			<form onsubmit="addNewTask(event)" class="ordenado">
+				<input type="text" name="taskText" autocomplete="off" placeholder="Ingrese Tarea" class="roundBorder">
+				<button type="submit" class="addTaskButton">+</button>
+			</form>
+			<div id="contenedorTareas"></div>
+		</div>
+
+		<div class="direccion">
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right" width="44"
+				height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#00abfb" fill="none" stroke-linecap="round"
+				stroke-linejoin="round">
+				<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+				<path
+					d="M4 9h8v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z" />
+			</svg>
+
+		</div>
+
+		<div class="tarea-proceso">
+			<div class="titulo-tarea">
+				<h3>En Progreso</h3>
+			</div>
+
+			<form onsubmit="addTaskProcess(event)" class="ordenado">
+				<input type="text" name="taskText" autocomplete="off" placeholder="Ingrese Tarea" class="roundBorder">
+				<button type="submit" class="addTaskButton">+</button>
+			</form>
+			<div id="contenedorProceso"></div>
+		</div>
+
+		<div class="direccion">
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right" width="44"
+				height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#00abfb" fill="none" stroke-linecap="round"
+				stroke-linejoin="round">
+				<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+				<path
+					d="M4 9h8v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z" />
+			</svg>
+		</div>
+
+
+		<div class="tarea-hecha">
+			<div class="titulo-tarea">
+				<h3>Hecho</h3>
+			</div>
+
+			<form onsubmit="addTaskDone(event)" class="ordenado">
+				<input type="text" name="taskText" autocomplete="off" placeholder="Ingrese Tarea" class="roundBorder">
+				<button type="submit" class="addTaskButton">+</button>
+			</form>
+			<div id="contenedorHechas"></div>
+		</div>
+
+	</div>
 </body>
-<script src="script.js"></script>
+<script src="script.js" type="text/javascript" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
 </html>

@@ -1,105 +1,83 @@
-const CLAVE_LOCALSTORAGE = "lista_tareas";
-document.addEventListener("DOMContentLoaded", () => {
-	let tareas = [];
+// CONTENEDOR TAREAS
+const contenedorTareas = document.getElementById('contenedorTareas');
+const contenedorProceso = document.getElementById('contenedorProceso');
+const contenedorHechas = document.getElementById('contenedorHechas');
 
 
-	const $contenedorTareas = document.querySelector("#contenedorTareas");
-	$btnGuardarTarea = document.querySelector("#btnAgregarTarea");
-	$inputNuevaTarea = document.querySelector("#inputNuevaTarea");
 
+Sortable.create(contenedorTareas, {
+	group: {
+		name: "lista-tareas",
+		pull: true,
+		put: true
 
-	$inputNuevaTarea.onkeyup = () => {
-		if ($inputNuevaTarea.value == ""){
-			$btnGuardarTarea.disabled = true;
-		} else{
-			$btnGuardarTarea.disabled = false;
-		}
-
-	}
-
-	$btnGuardarTarea.onclick = () => {
-		const tarea = $inputNuevaTarea.value;
-		if (!tarea) {
-			return;
-		}
-		tareas.push({
-			tarea: tarea,
-			terminada: false,
-		});
-	    $inputNuevaTarea.value = ("");
-		$btnGuardarTarea.disabled = true;
-		guardarTareasEnAlmacenamiento();
-		refrescarListaDeTareas();
-	};
-
-
-	const obtenerTareasDeAlmacenamiento = () => {
-		const posibleLista = JSON.parse(localStorage.getItem(CLAVE_LOCALSTORAGE));
-		if (posibleLista) {
-			return posibleLista;
-		} else {
-			return [];
-		}
-	};
-
-	const guardarTareasEnAlmacenamiento = () => {
-		localStorage.setItem(CLAVE_LOCALSTORAGE, JSON.stringify(tareas));
-	};
-
-	const refrescarListaDeTareas = () => {
-		$contenedorTareas.innerHTML = "";
-		for (const [indice, tarea] of tareas.entries()) {
-
-			const $enlaceParaEliminar = document.createElement("a");
-			$enlaceParaEliminar.classList.add("enlace-eliminar");
-			$enlaceParaEliminar.innerHTML = "&times;";
-			$enlaceParaEliminar.href = "";
-			$enlaceParaEliminar.onclick = (evento) => {
-				evento.preventDefault();
-				if (!confirm("¿Eliminar tarea?")) {
-					return;
-				}
-				tareas.splice(indice, 1);
-
-				guardarTareasEnAlmacenamiento(tareas);
-				refrescarListaDeTareas();
-			};
-
-			const $checkbox = document.createElement("input");
-			$checkbox.type = "checkbox";
-			$checkbox.onchange = function () {
-				if (this.checked) {
-					tareas[indice].terminada = true;
-				} else {
-					tareas[indice].terminada = false;
-				}
-				guardarTareasEnAlmacenamiento(tareas);
-				refrescarListaDeTareas();
-			}
-
-
-			const $span = document.createElement("span");
-			$span.textContent = tarea.tarea;
-
-			const $li = document.createElement("li");
-
-			if (tarea.terminada) {
-				$checkbox.checked = true;
-				$span.classList.add("tachado");
-				$enlaceParaEliminar.innerHTML = "";
-			}
-			$li.appendChild($checkbox);
-			$li.appendChild($span);
-			$li.appendChild($enlaceParaEliminar);
-			$contenedorTareas.appendChild($li);
-		}
-	};
-
-	tareas = obtenerTareasDeAlmacenamiento();
-	refrescarListaDeTareas();
-
-
-	if ($inputNuevaTarea.value == ""){
-		$btnGuardarTarea.disabled = true;
-	} 
+	},
+	Animation: 200,
+	easing: "cubic-bezier(0.7, 0, 0.84, 0)",
+	chosenClass: "seleccion"
 });
+
+
+Sortable.create(contenedorProceso, {
+	group: {
+		name: "lista-tareas",
+		pull: true,
+		put: true
+
+	},
+	Animation: 200,
+	easing: "cubic-bezier(0.7, 0, 0.84, 0)",
+	chosenClass: "seleccion"
+});
+
+
+Sortable.create(contenedorHechas, {
+	group: {
+		name: "lista-tareas",
+		pull: false,
+		put: true
+
+	},
+	Animation: 200,
+	easing: "cubic-bezier(0.7, 0, 0.84, 0)",
+	chosenClass: "seleccion"
+
+});
+
+const addNewTask = event => {
+	event.preventDefault();
+	const { value } = event.target.taskText;
+	if (!value) return;
+	const task = document.createElement('div');
+	task.classList.add('task', 'roundBorder');
+	task.addEventListener('click', addNewTask);
+	task.textContent = value;
+	contenedorTareas.prepend(task);
+	event.target.reset();
+}
+
+
+
+const addTaskProcess = event => {
+	event.preventDefault();
+	const { value } = event.target.taskText;
+	if (!value) return;
+	const task = document.createElement('div');
+	task.classList.add('task', 'roundBorder');
+	task.addEventListener('click', addTaskProcess);
+	task.textContent = value;
+	contenedorProceso.prepend(task);
+	event.target.reset();
+}
+
+const addTaskDone = event => {
+	event.preventDefault();
+	const { value } = event.target.taskText;
+	if (!value) return;
+	const task = document.createElement('div');
+	task.classList.add('task', 'roundBorder');
+	task.addEventListener('click', addTaskDone);
+	task.textContent = value;
+	contenedorHechas.prepend(task);
+	event.target.reset();
+}
